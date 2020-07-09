@@ -101,5 +101,5 @@ $("#add-park").on("click", function (event) {
     console.log(userInput);
 
     stateParks();
-    // $("#user-input").val("");
+    $("#user-input").val("");
 });

@@ -19,3 +19,7 @@ body { background-color: rgb(255, 253, 231);}
     height: 100vh;
     background-size: cover; */
 }
+
+.nameOfPark {
+    cursor: pointer;
+}

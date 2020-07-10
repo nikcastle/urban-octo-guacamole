@@ -1,34 +1,54 @@
 body { background-color: rgb(255, 253, 231);}
 
-.nav-wrapper {
- background-color: rgb(208, 106, 94);
- text-align: center;
+.cards { 
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 3;}
+
+#card-content{
+
+
+}
+h2 {
+    color: rgb(255, 253, 231);
+
+}
+.imgOfPark {
+    height: 500px;
 }
 
 .mainImage {
     background-image: url(assets/IMG_1587.jpeg);
-    width: 100%;
-    height: 300px;
+    height: 400px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 100%;
+    background-color: transparent;
     background-size: cover;
 }
 
+.nav-wrapper {
+    background-color: rgb(208, 106, 94);
+    text-align: center;
+   }
 
-.cards{ 
-    display: flex;
-    justify-content: space-between;
-    flex-grow: 3;
-
-    /* background-repeat: no-repeat;
-    height: 100vh;
-    background-size: cover; */
-}
-
-.nameOfPark {
-    cursor: pointer;
+#parkList{
+    background-image: url(https://www.nps.gov/common/uploads/structured_data/3C81655F-1DD8-B71B-0B4BCFFDB74EE723.jpg);
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 100%;
+    background-color: transparent;
+    background-size: cover;
 }
 #site-objectives {
     background-color: rgb(208, 106, 94);
-    
-    
-    
+    border-radius: 3px;
+    opacity: .8;
+
+}
+
+.utilityDescription {
+    color: rgb(255, 253, 231)
 }

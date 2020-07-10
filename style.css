@@ -18,6 +18,13 @@ body { background-color: rgb(255, 253, 231);}
     justify-content: space-between;
     flex-grow: 3;
 
+    /* background-repeat: no-repeat;
+    height: 100vh;
+    background-size: cover; */
+}
+
+.nameOfPark {
+    cursor: pointer;
 }
 #site-objectives {
     background-color: rgb(208, 106, 94);

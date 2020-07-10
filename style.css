@@ -14,7 +14,7 @@ h2 {
 
 }
 .imgOfPark {
-    height: 500px;
+    height: 200px;
 }
 
 .mainImage {
@@ -34,7 +34,7 @@ h2 {
    }
 
 #parkList{
-    background-image: url(https://www.nps.gov/common/uploads/structured_data/3C81655F-1DD8-B71B-0B4BCFFDB74EE723.jpg);
+    /* background-image: url(https://www.nps.gov/common/uploads/structured_data/3C81655F-1DD8-B71B-0B4BCFFDB74EE723.jpg); */
     vertical-align: middle;
     background-repeat: no-repeat;
     background-position: 50% 50%;

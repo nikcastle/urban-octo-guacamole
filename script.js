@@ -18,9 +18,12 @@ function stateParks(){
         console.log(response);
 
         for (var i = 0; i < response.data.length; i++) {
+            lat = response.data[i].latitude;
+            lon = response.data[i].longitude;
+            console.log(lat)
             var name = response.data[i].fullName;
-            var parkName = $("<div>");
-            var parkImage = $("<img>");
+            var parkName = $("<div class = card horizontal>");
+            var parkImage = $("<img class='imgOfPark card-image'>");
             var imgSrc = "";
             if(response.data[i].images.length === 0){
                 imgSrc = ""
@@ -29,11 +32,13 @@ function stateParks(){
         
             }
 
-            parkImage.attr(
-                "src", imgSrc,
-                "class", "imgOfPark");
+            parkImage.attr({
+                "src": imgSrc,
+                "data-lat": lat,
+                "data-lon": lon                
+            });
 
-            parkName.text(name).addClass("nameOfPark");
+            parkName.text(name).addClass("nameOfPark header");
             parkName.append(parkImage);
 
             // console.log(parkName);
@@ -46,6 +51,11 @@ function stateParks(){
 
 
 }
+$(".imgOfPark").on("click", function() {
+    var parkLat = $(this).data("lat")
+    var parkLon = $(this).data("lon")
+    forecast(parkLat, parkLon);
+});
 
 $("#add-park").on("click", function (event) {
     event.preventDefault();

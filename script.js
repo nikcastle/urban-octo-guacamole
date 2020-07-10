@@ -69,16 +69,12 @@ $("#add-park").on("click", function (event) {
     $("#user-input").val("");
 });
 
-// ?? on click event for info block
-// ---- populate lon and lat (use response.data.latitude and response.data.longitude)
-// --- call weather functions
 
 
 // ------------- WEATHER FUNCTIONS ----------------------
 
 function getWeather(parkLat, parkLon) {
-    //!update this to input lat and lon parameters
-    var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=31bc0639ecbf46fe8fb7a18255b9f63c&units=i`
+    var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
 
     $.ajax({
         url: weatherUrl,
@@ -101,7 +97,6 @@ function getWeather(parkLat, parkLon) {
 }
 
 function forecast(parkLat, parkLon) {
-    //!update this to input lat and lon parameters
     var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKey}&units=i&days=3`
 
     $.ajax({

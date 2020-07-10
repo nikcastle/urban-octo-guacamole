@@ -18,12 +18,9 @@ function stateParks(){
         console.log(response);
 
         for (var i = 0; i < response.data.length; i++) {
-            lat = response.data[i].latitude;
-            lon = response.data[i].longitude;
-            console.log(lat)
             var name = response.data[i].fullName;
-            var parkName = $("<div card horizontal>");
-            var parkImage = $("<img class='imgOfPark card-image'>");
+            var parkName = $("<div>");
+            var parkImage = $("<img>");
             var imgSrc = "";
             if(response.data[i].images.length === 0){
                 imgSrc = ""
@@ -32,13 +29,11 @@ function stateParks(){
         
             }
 
-            parkImage.attr({
-                "src": imgSrc,
-                "data-lat": lat,
-                "data-lon": lon                
-            });
+            parkImage.attr(
+                "src", imgSrc,
+                "class", "imgOfPark");
 
-            parkName.text(name).addClass("nameOfPark header");
+            parkName.text(name).addClass("nameOfPark");
             parkName.append(parkImage);
 
             // console.log(parkName);
@@ -47,16 +42,8 @@ function stateParks(){
             $("#parkList").append(parkName);
 
         }
+    })
 
-    })
-    
-    $(".imgOfPark").on("click", function() {
-        var parkLat = $(this).data("lat")
-        var parkLon = $(this).data("lon")
-        forecast(parkLat, parkLon);
-        
-    
-    })
 
 }
 
@@ -68,7 +55,6 @@ $("#add-park").on("click", function (event) {
     stateParks();
     $("#user-input").val("");
 });
-
 
 
 // ------------- WEATHER FUNCTIONS ----------------------
@@ -91,7 +77,7 @@ function getWeather(parkLat, parkLon) {
         icon.attr("src", `assets/icons/${iconCode}.png`)
         var wind = $(`<p> Wind Speed: ${current.wind_spd} MPH</p>`);
 
-        $("#current").append(cityName, icon, temp, wind);
+        $("#current").prepend(cityName, icon, temp, wind);
     })
 
 }
@@ -113,7 +99,7 @@ function forecast(parkLat, parkLon) {
             var icon = $(`<img>`)
             icon.attr("src", `assets/icons/${iconCode}.png`)
             var foreWind = $(`<p> Wind Speed: ${forecast[i].wind_spd} MPH</p>`);
-            $("#parkList").prepend(foreDate, icon, foreTemp, foreWind);
+            $("#forecast").prepend(foreDate, icon, foreTemp, foreWind);
         }
 
     })

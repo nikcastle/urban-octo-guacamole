@@ -1,1 +1,21 @@
 body { background-color: rgb(255, 253, 231);}
+
+.nav-wrapper {
+ background-color: rgb(208, 106, 94);
+ text-align: center;
+ 
+}
+
+.mainImage {
+    background-image: url(assets/IMG_1587.jpeg);
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    
+
+
+
+    /* background-repeat: no-repeat;
+    height: 100vh;
+    background-size: cover; */
+}

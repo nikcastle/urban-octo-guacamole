@@ -3,7 +3,6 @@ body { background-color: rgb(255, 253, 231);}
 .nav-wrapper {
  background-color: rgb(208, 106, 94);
  text-align: center;
- 
 }
 
 .mainImage {
@@ -11,11 +10,17 @@ body { background-color: rgb(255, 253, 231);}
     width: 100%;
     height: 300px;
     background-size: cover;
+}
+
+
+.cards{ 
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 3;
+
+}
+#site-objectives {
+    background-color: rgb(208, 106, 94);
     
-
-
-
-    /* background-repeat: no-repeat;
-    height: 100vh;
-    background-size: cover; */
+    
 }

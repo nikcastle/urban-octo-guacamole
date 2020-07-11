@@ -7,6 +7,11 @@ var userInput;
 var natParkCode;
 var chosenPark;
 
+//clear function
+function clear() {
+    $("#parkList").empty()
+}
+
 //Pull Park Names
 function stateParks() {
     var act = [];
@@ -24,30 +29,40 @@ function stateParks() {
             console.log(lat)
             var name = response.data[i].fullName;
             natParkCode = response.data[i].parkCode;
-            var parkName = $("<button data-code='" + natParkCode +"'>");
-            var parkImage = $("<img class = 'imgOfPark' >");
+            var description = $(`<p> ${response.data[i].description}</p>`);
+            
+            var parkName = $("<h4 data-code='" + natParkCode + "'>");
+            var imgDiv = $("<div class= 'card-image'>");
+            var cardStacked = $("<div class='card-stacked'>")
+            var cardDiv = $("<div class='card horizontal'> ");
+            var desDiv = $("<div class='card-content'>");
+            
+            var parkImage = $("<img class='imgOfPark'  src=''/>");
             var imgSrc = "";
+
             if (response.data[i].images.length === 0) {
                 imgSrc = ""
             } else {
                 imgSrc = response.data[i].images[0].url;
 
             }
-        
 
             parkImage.attr({
                 "src": imgSrc,
                 "data-lat": lat,
-                "data-lon": lon                
+                "data-lon": lon
             });
 
-            parkName.text(name).addClass("nameOfPark header");
-            parkName.append(parkImage);
+            parkName.text(name).addClass("nameOfPark");
 
-            // console.log(parkName);
-            // console.log(name);
+            // *Populates html for park list div
+            imgDiv.append(parkImage);
+            desDiv.append(description);
+            cardStacked.append(desDiv);
+            cardDiv.append(imgDiv, cardStacked);
 
-            $("#parkList").append(parkName);
+            $("#parkList").append(parkName, cardDiv);
+
         }
     })
 
@@ -55,18 +70,21 @@ function stateParks() {
 
 function choosePark(chosenPark) {
     var queryURL = "https://developer.nps.gov/api/v1/parks?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
-    
+
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
         console.log(response);
-       
+
     })
 }
 
-$(document).on("click", ".imgOfPark", function() {
+$(document).on("click", ".imgOfPark", function () {
     // event.preventDefault();
+    $("#parkList").hide();
+    $("#parkInfo").show();
+
     var parkLat = $(this).data("lat")
     var parkLon = $(this).data("lon")
     var chosenPark = $(this).data("code");
@@ -76,72 +94,79 @@ $(document).on("click", ".imgOfPark", function() {
 
 $("#add-park").on("click", function (event) {
     event.preventDefault();
+    clear();
+    $("#parkInfo").hide();
     userInput = $("#user-input").val().trim();
     console.log(userInput);
-    
     stateParks();
-    // $("#user-input").val("");
+    $("#user-input").val("");
 });
 
 
 
 
-
-// ?? on click event for info block
-// ---- populate lon and lat (use response.data.latitude and response.data.longitude)
-// --- call weather functions
-
-
 // ------------- WEATHER FUNCTIONS ----------------------
 function getWeather(parkLat, parkLon) {
-        var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
- 
-        $.ajax({
-            url: weatherUrl,
-            method: "GET"
-        }).then(function (response) {
+    var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
 
-            var current = response.data[0]
+    $.ajax({
+        url: weatherUrl,
+        method: "GET"
+    }).then(function (response) {
 
-            //current
-            var cityName = $(`<p> ${current.city_name} </p>`);
-            var temp = $(`<p> Current Temperature: ${current.temp} &degF </p> `);
-            var iconCode = current.weather.icon
-            var icon = $(`<img>`)
-            icon.attr("src", `assets/icons/${iconCode}.png`)
-            var wind = $(`<p> Wind Speed: ${current.wind_spd} MPH</p>`);
+        var current = response.data[0]
 
-            $("#current").prepend(cityName, icon, temp, wind);
-        })
+        //current
+        var cityName = $(`<p> ${current.city_name} </p>`);
+        var temp = $(`<p> Current Temperature: ${current.temp} &degF </p> `);
+        var iconCode = current.weather.icon
+        var icon = $(`<img>`)
+        icon.attr("src", `assets/icons/${iconCode}.png`)
+        var wind = $(`<p> Wind Speed: ${current.wind_spd} MPH</p>`);
 
-    }
-
-    function forecast(parkLat, parkLon) {
-        var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKey}&units=i&days=3`
-        $.ajax({
-            url: forecastUrl,
-            method: "GET"
-        }).then(function (response) {
-
-            var forecast = response.data
-
-            for (var i = 0; i < forecast.length; i++) {
-                var foreDate = $(`<p> ${moment.unix(forecast[i].ts).format("M/D/YY")} </p> `);
-                var foreTemp = $(`<p> Current Temperature: ${forecast[i].temp} &degF </p> `);
-                var iconCode = forecast[i].weather.icon
-                var icon = $(`<img>`)
-                icon.attr("src", `assets/icons/${iconCode}.png`)
-                var foreWind = $(`<p> Wind Speed: ${forecast[i].wind_spd} MPH</p>`);
-                $("#parkList").prepend(foreDate, icon, foreTemp, foreWind);
-            }
-
-        })
-
-    }
-
-
-    $("#search").on("click", function () {
-        city = $("#search-input").val().trim();
-        getWeather();
-        forecast();
+        $("#current").prepend(cityName, icon, temp, wind);
     })
+
+}
+
+function forecast(parkLat, parkLon) {
+    var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKey}&units=i&days=3`
+    $.ajax({
+        url: forecastUrl,
+        method: "GET"
+    }).then(function (response) {
+
+        var forecast = response.data
+
+        for (var i = 0; i < forecast.length; i++) {
+            var foreDate = $(`<p> ${moment.unix(forecast[i].ts).format("M/D/YY")} </p> `);
+            var foreTemp = $(`<p> Current Temperature: ${forecast[i].temp} &degF </p> `);
+            var weatherCode = forecast[i].code
+            var weatherDes = forecast[i].description
+            var iconCode = forecast[i].weather.icon
+            var icon = $(`<img>`)
+            icon.attr({
+                "src": `assets/icons/${iconCode}.png`,
+                "data-weatherCode": weatherCode
+            })
+            var foreWind = $(`<p> Wind Speed: ${forecast[i].wind_spd} MPH</p>`);
+            $("#parkInfo").append(foreDate, icon, foreTemp, foreWind, ifRaining(weatherCode, weatherDes));
+
+        }
+
+
+    })
+
+}
+
+function ifRaining(weatherCode, weatherDes) {
+    if (weatherCode < 800) {
+        $(`<p> Looks like it is ${weatherDes}! Perhaps look up other activities in the area? <a href="https://www.tripadvisor.com/" target='_blank'`);
+    }
+}
+
+$("#search").on("click", function () {
+    city = $("#search-input").val().trim();
+    getWeather();
+    forecast();
+})

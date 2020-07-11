@@ -80,12 +80,15 @@ function stateParks() {
 }
 
 function choosePark(chosenPark) {
+
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
+
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+
 
         for (var i = 0; i < response.data.length; i++) {
             if (response.data[i].parkCode === chosenPark) {
@@ -112,6 +115,7 @@ function choosePark(chosenPark) {
         }
     })
 }
+
 
 
 onLoad();
@@ -171,6 +175,7 @@ function forecast(parkLat, parkLon) {
                 "data-weatherCode": weatherCode
             });
 
+
             ifRaining(weatherCode, weatherDes);
             cardPanel.append(date, temp, icon, rain);
             cardDiv.append(cardPanel);
@@ -184,6 +189,10 @@ function forecast(parkLat, parkLon) {
     })
 
 }
+
+
+}
+
 
 
 
@@ -202,6 +211,12 @@ function ifRaining(weatherCode) {
     }
     return rain;
 }
+
+
+// MAY NOT NEED THIS FUNCTION
+// ------------- WEATHER FUNCTIONS ----------------------
+// function getWeather(parkLat, parkLon) {
+//     var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
 
 
 // MAY NOT NEED THIS FUNCTION

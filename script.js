@@ -24,8 +24,8 @@ function stateParks() {
             console.log(lat)
             var name = response.data[i].fullName;
             natParkCode = response.data[i].parkCode;
-            var parkName = $("<button data-code='" + natParkCode +"'>");
-            var parkImage = $("<img class = 'imgOfPark' >");
+            var parkName = $("<h4>");
+            var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark src=''/>`);
             var imgSrc = "";
             if (response.data[i].images.length === 0) {
                 imgSrc = ""

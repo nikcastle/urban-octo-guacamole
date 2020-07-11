@@ -80,16 +80,43 @@ function stateParks() {
 }
 
 function choosePark(chosenPark) {
-    var queryURL = "https://developer.nps.gov/api/v1/parks?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
+
+    var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
+
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response);
 
+
+        for (var i = 0; i < response.data.length; i++) {
+            if (response.data[i].parkCode === chosenPark) {
+                console.log(response.data[i].fullName);
+                var parkCard = $("<div>")
+                var actDiv = $("<ul>")
+                var parkTitle = $("<h4>").text(response.data[i].fullName);
+                var actTitle = $("<h5>").text("Available Activities: ");
+                var acts = response.data[i].activities
+                var actLi = [];
+
+                for(var j = 0; j < acts.length; j++){
+                    var item = $("<li>").text(acts[j].name);
+                    actLi.push(item);
+                }
+    
+                actDiv.append(actLi);
+                parkCard.append(parkTitle, actTitle, actDiv);
+                $("#parkInfo").prepend(parkCard);
+            } 
+
+
+            console.log(actDiv);
+        }
     })
 }
+
+
 
 onLoad();
 
@@ -148,6 +175,7 @@ function forecast(parkLat, parkLon) {
                 "data-weatherCode": weatherCode
             });
 
+
             ifRaining(weatherCode, weatherDes);
             cardPanel.append(date, temp, icon, rain);
             cardDiv.append(cardPanel);
@@ -161,6 +189,10 @@ function forecast(parkLat, parkLon) {
     })
 
 }
+
+
+}
+
 
 
 
@@ -179,6 +211,12 @@ function ifRaining(weatherCode) {
     }
     return rain;
 }
+
+
+// MAY NOT NEED THIS FUNCTION
+// ------------- WEATHER FUNCTIONS ----------------------
+// function getWeather(parkLat, parkLon) {
+//     var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
 
 
 // MAY NOT NEED THIS FUNCTION

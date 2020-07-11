@@ -4,7 +4,8 @@ body { background-color: rgb(255, 253, 231);}
     
     display: flex;
     justify-content: space-between;
-    flex-grow: 3;}
+    flex-grow: 3;
+}
 
 h1 {
     
@@ -116,4 +117,13 @@ h2 {
 
 .utilityDescription {
     color: rgb(208, 106, 94);
+}
+
+.days {
+    margin-right: 1.5rem;
+    height: 300px;
+}
+
+.days img {
+    height: 90px;
 }

@@ -30,14 +30,14 @@ function stateParks() {
             var name = response.data[i].fullName;
             natParkCode = response.data[i].parkCode;
             var description = $(`<p> ${response.data[i].description}</p>`);
-            
-            var parkName = $("<h4 data-code='" + natParkCode + "'>");
+
+            var parkName = $("<h4>");
             var imgDiv = $("<div class= 'card-image'>");
             var cardStacked = $("<div class='card-stacked'>")
             var cardDiv = $("<div class='card horizontal'> ");
             var desDiv = $("<div class='card-content'>");
-            
-            var parkImage = $("<img class='imgOfPark'  src=''/>");
+
+            var parkImage = $(`<img  data-code="${natParkCode}" class='imgOfPark'  src=''/>`);
             var imgSrc = "";
 
             if (response.data[i].images.length === 0) {
@@ -68,15 +68,36 @@ function stateParks() {
 
 }
 
+//Pull Park Activities
 function choosePark(chosenPark) {
-    var queryURL = "https://developer.nps.gov/api/v1/parks?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
+    var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response);
 
+        for (var i = 0; i < response.data.length; i++) {
+            if (response.data[i].parkCode === chosenPark) {
+
+                var actDiv = $("<ul>")
+                var acts = response.data[j].activities
+                var actLi = [];
+                acts.forEach(myFunction);
+
+                function myFunction() {
+                    var item = $("<li>").text(acts[j].name);
+                    actLi.push(item);
+                }
+
+                actDiv.append(actLi);
+
+
+            } else return;
+
+
+            console.log(actDiv);
+        }
     })
 }
 
@@ -87,7 +108,7 @@ $(document).on("click", ".imgOfPark", function () {
 
     var parkLat = $(this).data("lat")
     var parkLon = $(this).data("lon")
-    var chosenPark = $(this).data("code");
+    chosenPark = $(this).data("code");
     forecast(parkLat, parkLon);
     choosePark(chosenPark);
 });

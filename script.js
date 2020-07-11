@@ -17,13 +17,14 @@ function clear() {
     $("#appInfo").hide()
 }
 
+// when page loads
 function onLoad() {
     $("#appInfo").show();
     $("#parkList").hide();
     $("#parkInfo").hide();
 }
 
-//Pull Park Names
+//gather info from NPS
 function stateParks() {
     var act = [];
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
@@ -79,6 +80,7 @@ function stateParks() {
 
 }
 
+// gather info for parkInfo div
 function choosePark(chosenPark) {
 
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
@@ -111,42 +113,20 @@ function choosePark(chosenPark) {
             } 
 
 
-            console.log(actDiv);
+            // console.log(actDiv);
         }
     })
 }
 
-
-
-onLoad();
-
-
-$(document).on("click", ".imgOfPark", function () {
-    // event.preventDefault();
-    $("#parkList").hide();
-    $("#parkInfo").show().empty();
-    
-    var parkLat = $(this).data("lat");
-    var parkLon = $(this).data("lon");
-    var chosenPark = $(this).data("code");
-    // imgSource = $(this).attr("src");
-    forecast(parkLat, parkLon);
-    choosePark(chosenPark);
-});
-
-$("#add-park").on("click", function (event) {
-    event.preventDefault();
-    clear();
-    $("#parkList").show();
-    $("#parkInfo").hide();
-    userInput = $("#user-input").val().trim();
-    console.log(userInput);
-    stateParks();
-    $("#user-input").val("");
-});
-
+// gets forecast
 function forecast(parkLat, parkLon) {
+
+    if (!parkLat && !parkLon) {
+        return false;
+    }
+
     var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKey}&units=i&days=3`
+
     $.ajax({
         url: forecastUrl,
         method: "GET"
@@ -187,20 +167,10 @@ function forecast(parkLat, parkLon) {
         }
 
     })
-
+    
 }
 
-
-}
-
-
-
-
-
-
-
-
-
+// shows link if it is bad weather
 function ifRaining(weatherCode) {
     
     if (weatherCode < 800) {
@@ -212,34 +182,30 @@ function ifRaining(weatherCode) {
     return rain;
 }
 
+// * ---- FUNCTION CALLS ----
+onLoad();
 
-// MAY NOT NEED THIS FUNCTION
-// ------------- WEATHER FUNCTIONS ----------------------
-// function getWeather(parkLat, parkLon) {
-//     var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
+// * ----- CLICK EVENTS ------
+$(document).on("click", ".imgOfPark", function () {
+    // event.preventDefault();
+    $("#parkList").hide();
+    $("#parkInfo").show().empty();
+    
+    var parkLat = $(this).data("lat");
+    var parkLon = $(this).data("lon");
+    var chosenPark = $(this).data("code");
+    // imgSource = $(this).attr("src");
+    forecast(parkLat, parkLon);
+    choosePark(chosenPark);
+});
 
-
-// MAY NOT NEED THIS FUNCTION
-// ------------- WEATHER FUNCTIONS ----------------------
-// function getWeather(parkLat, parkLon) {
-//     var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
-
-//     $.ajax({
-//         url: weatherUrl,
-//         method: "GET"
-//     }).then(function (response) {
-
-//         var current = response.data[0]
-
-//         //current
-//         var cityName = $(`<p> ${current.city_name} </p>`);
-//         var temp = $(`<p> Current Temperature: ${current.temp} &degF </p> `);
-//         var iconCode = current.weather.icon
-//         var icon = $(`<img>`)
-//         icon.attr("src", `assets/icons/${iconCode}.png`)
-//         var wind = $(`<p> Wind Speed: ${current.wind_spd} MPH</p>`);
-
-//         $("#current").prepend(cityName, icon, temp, wind);
-//     })
-
-// }
+$("#add-park").on("click", function (event) {
+    event.preventDefault();
+    clear();
+    $("#parkList").show();
+    $("#parkInfo").hide();
+    userInput = $("#user-input").val().trim();
+    console.log(userInput);
+    stateParks();
+    $("#user-input").val("");
+});

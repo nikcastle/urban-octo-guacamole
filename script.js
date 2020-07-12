@@ -107,23 +107,23 @@ function choosePark(chosenPark) {
                 var direcTitle = $("<h5>").text("Directions to the Park: ")
                 var direcInfo = $("<p>").text(response.data[i].directionsInfo);
                 //entrance fee info
-                var entDiv = $("<div>")     
+                var entDiv = $("<div>")
                 var entTitle = $("<h5>").text("Entrance Fees: ")
                 var entFeeTitle = $("<p>").text(response.data[i].entranceFees[0].title);
                 var entFees = $("<p>").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
                 var entFeeDesc = $("<p>").text(response.data[i].entranceFees[0].description);
-            
-                for(var j = 0; j < acts.length; j++){
+
+                for (var j = 0; j < acts.length; j++) {
                     var item = $("<li>").text(acts[j].name);
                     actLi.push(item);
                 }
-                
+
                 entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
                 direcDiv.append(direcTitle, direcInfo);
                 actDiv.append(actLi);
                 parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
                 $("#parkInfo").prepend(parkCard);
-            } 
+            }
 
         }
     })
@@ -149,13 +149,13 @@ function forecast(parkLat, parkLon) {
         var cardDiv = $("<div class='col s12 offset-s1'>");
 
         for (var i = 0; i < forecast.length; i++) {
-            
+
             var weatherCode = forecast[i].weather.code
             console.log(weatherCode)
             var weatherDes = forecast[i].weather.description
             console.log(weatherDes)
             var iconCode = forecast[i].weather.icon
-            
+
             var cardPanel = $("<div class = 'card-panel teal lighten-5 col s3 center-align days'>");
 
             var date = $(`<h5> ${moment.unix(forecast[i].ts).format("M/D/YY")} </h5> `);
@@ -173,17 +173,17 @@ function forecast(parkLat, parkLon) {
             forecastDiv.append(cardDiv)
             weatherDiv.append(forecastDiv)
             $("#parkInfo").append(weatherDiv)
-            
-            
+
+
         }
 
     })
-    
+
 }
 
 // shows link if it is bad weather
 function ifRaining(weatherCode) {
-    
+
     if (weatherCode < 800) {
         rain = `<p> Looks like the weather is not great. Look up other activities in the area?</p>
         <p> <a href='travelocity.com' target='_blank'>Travelocity</a> </p>`;
@@ -201,7 +201,7 @@ $(document).on("click", ".imgOfPark", function () {
     // event.preventDefault();
     $("#parkList").hide();
     $("#parkInfo").show().empty();
-    
+
     var parkLat = $(this).data("lat");
     var parkLon = $(this).data("lon");
     var chosenPark = $(this).data("code");

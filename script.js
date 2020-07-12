@@ -22,6 +22,8 @@ function onLoad() {
     $("#appInfo").show();
     $("#parkList").hide();
     $("#parkInfo").hide();
+    $("#goBack").hide();
+    clearStorage();
 }
 
 //gather info from NPS
@@ -95,7 +97,7 @@ function choosePark(chosenPark) {
         for (var i = 0; i < response.data.length; i++) {
             if (response.data[i].parkCode === chosenPark) {
                 console.log(response.data[i].fullName);
-                var parkCard = $("<div>")
+                var parkCard = $("<div col s9>")
                 var actDiv = $("<ul>")
                 var parkTitle = $("<h4>").text(response.data[i].fullName);
                 var actTitle = $("<h5>").text("Available Activities: ");
@@ -109,7 +111,7 @@ function choosePark(chosenPark) {
     
                 actDiv.append(actLi);
                 parkCard.append(parkTitle, actTitle, actDiv);
-                $("#parkInfo").prepend(parkCard);
+                $("#parkInfo").append(parkCard);
             } 
 
 
@@ -134,8 +136,8 @@ function forecast(parkLat, parkLon) {
         var forecast = response.data
         console.log(response)
         var weatherDiv = $("<div class='wrapper container'>");
-        var forecastDiv = $("<div class='row days center-align'>");
-        var cardDiv = $("<div class='col s12 offset-s1'>");
+        var forecastDiv = $("<div class='col s3 days center-align'>");
+        var cardDiv = $("<div>");
 
         for (var i = 0; i < forecast.length; i++) {
             
@@ -145,7 +147,7 @@ function forecast(parkLat, parkLon) {
             console.log(weatherDes)
             var iconCode = forecast[i].weather.icon
             
-            var cardPanel = $("<div class = 'card-panel teal lighten-5 col s3 center-align days'>");
+            var cardPanel = $("<div class = 'card-panel teal lighten-5 center-align days'>");
 
             var date = $(`<h5> ${moment.unix(forecast[i].ts).format("M/D/YY")} </h5> `);
             var temp = $(`<p> Temperature: ${forecast[i].temp} &degF </p> `);
@@ -160,8 +162,8 @@ function forecast(parkLat, parkLon) {
             cardPanel.append(date, temp, icon, rain);
             cardDiv.append(cardPanel);
             forecastDiv.append(cardDiv)
-            weatherDiv.append(forecastDiv)
-            $("#parkInfo").append(weatherDiv)
+            // weatherDiv.append(forecastDiv)
+            $("#parkInfo").append(forecastDiv)
             
             
         }
@@ -175,11 +177,25 @@ function ifRaining(weatherCode) {
     
     if (weatherCode < 800) {
         rain = `<p> Looks like the weather is not great. Look up other activities in the area?</p>
-        <p> <a href='travelocity.com' target='_blank'>Travelocity</a> </p>`;
+        <p> <a href='www.tripadvisor.com' target='_blank'>Trip Advisor</a> </p>`;
     } else {
         rain = "<p>The weather is great for an adventure!</p>";
     }
     return rain;
+}
+
+// local storage functions
+function saveUserInput() {
+    localStorage.setItem("input", JSON.stringify(userInput));
+}
+
+function getUserInput() {
+    userInput = JSON.parse(localStorage.getItem("input")) || "";
+    stateParks();
+}
+
+function clearStorage() {
+    localStorage.clear();
 }
 
 // * ---- FUNCTION CALLS ----
@@ -187,14 +203,15 @@ onLoad();
 
 // * ----- CLICK EVENTS ------
 $(document).on("click", ".imgOfPark", function () {
-    // event.preventDefault();
+    
     $("#parkList").hide();
     $("#parkInfo").show().empty();
+    $("#goBack").show();
     
     var parkLat = $(this).data("lat");
     var parkLon = $(this).data("lon");
     var chosenPark = $(this).data("code");
-    // imgSource = $(this).attr("src");
+    
     forecast(parkLat, parkLon);
     choosePark(chosenPark);
 });
@@ -205,7 +222,17 @@ $("#add-park").on("click", function (event) {
     $("#parkList").show();
     $("#parkInfo").hide();
     userInput = $("#user-input").val().trim();
-    console.log(userInput);
+    // console.log(userInput);
     stateParks();
     $("#user-input").val("");
+    saveUserInput();
+    
 });
+
+$("#goBack").on("click", function() {
+    // onLoad();
+    // getUserInput();
+    // $("#parkInfo").hide();
+    $("#parkList").show();
+}) 
+

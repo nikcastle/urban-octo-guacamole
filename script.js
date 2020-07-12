@@ -17,13 +17,14 @@ function clear() {
     $("#appInfo").hide()
 }
 
+// when page loads
 function onLoad() {
     $("#appInfo").show();
     $("#parkList").hide();
     $("#parkInfo").hide();
 }
 
-//Pull Park Names
+//gather info from NPS
 function stateParks() {
     var act = [];
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
@@ -79,6 +80,7 @@ function stateParks() {
 
 }
 
+// gather info for parkInfo div
 function choosePark(chosenPark) {
 
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
@@ -96,57 +98,46 @@ function choosePark(chosenPark) {
                 var parkCard = $("<div>")
                 var actDiv = $("<ul>")
                 var parkTitle = $("<h4>").text(response.data[i].fullName);
+
                 var actTitle = $("<h5>").text("Available Activities: ");
                 var acts = response.data[i].activities
                 var actLi = [];
+
+                var direcDiv = $("<div>")
+                var direcTitle = $("<h5>").text("Directions to the Park: ")
+                var direcInfo = $("<p>").text(response.data[i].directionsInfo);
+                //entrance fee info
+                var entDiv = $("<div>")
+                var entTitle = $("<h5>").text("Entrance Fees: ")
+                var entFeeTitle = $("<p>").text(response.data[i].entranceFees[0].title);
+                var entFees = $("<p>").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
+                var entFeeDesc = $("<p>").text(response.data[i].entranceFees[0].description);
 
                 for (var j = 0; j < acts.length; j++) {
                     var item = $("<li>").text(acts[j].name);
                     actLi.push(item);
                 }
 
+                entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
+                direcDiv.append(direcTitle, direcInfo);
                 actDiv.append(actLi);
-                parkCard.append(parkTitle, actTitle, actDiv);
+                parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
                 $("#parkInfo").prepend(parkCard);
             }
 
-
-            console.log(actDiv);
         }
     })
 }
 
-
-
-onLoad();
-
-
-$(document).on("click", ".imgOfPark", function () {
-    // event.preventDefault();
-    $("#parkList").hide();
-    $("#parkInfo").show().empty();
-
-    var parkLat = $(this).data("lat");
-    var parkLon = $(this).data("lon");
-    var chosenPark = $(this).data("code");
-    // imgSource = $(this).attr("src");
-    forecast(parkLat, parkLon);
-    choosePark(chosenPark);
-});
-
-$("#add-park").on("click", function (event) {
-    event.preventDefault();
-    clear();
-    $("#parkList").show();
-    $("#parkInfo").hide();
-    userInput = $("#user-input").val().trim();
-    console.log(userInput);
-    stateParks();
-    $("#user-input").val("");
-});
-
+// gets forecast
 function forecast(parkLat, parkLon) {
+
+    if (!parkLat && !parkLon) {
+        return false;
+    }
+
     var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKey}&units=i&days=3`
+
     $.ajax({
         url: forecastUrl,
         method: "GET"
@@ -190,17 +181,7 @@ function forecast(parkLat, parkLon) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
+// shows link if it is bad weather
 function ifRaining(weatherCode) {
 
     if (weatherCode < 800) {
@@ -212,34 +193,30 @@ function ifRaining(weatherCode) {
     return rain;
 }
 
+// * ---- FUNCTION CALLS ----
+onLoad();
 
-// MAY NOT NEED THIS FUNCTION
-// ------------- WEATHER FUNCTIONS ----------------------
-// function getWeather(parkLat, parkLon) {
-//     var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
+// * ----- CLICK EVENTS ------
+$(document).on("click", ".imgOfPark", function () {
+    // event.preventDefault();
+    $("#parkList").hide();
+    $("#parkInfo").show().empty();
 
+    var parkLat = $(this).data("lat");
+    var parkLon = $(this).data("lon");
+    var chosenPark = $(this).data("code");
+    // imgSource = $(this).attr("src");
+    forecast(parkLat, parkLon);
+    choosePark(chosenPark);
+});
 
-// MAY NOT NEED THIS FUNCTION
-// ------------- WEATHER FUNCTIONS ----------------------
-// function getWeather(parkLat, parkLon) {
-//     var weatherUrl = `https://api.weatherbit.io/v2.0/current/?lon=${parkLon}&lat=${parkLat}&key=${apiKey}=i`
-
-//     $.ajax({
-//         url: weatherUrl,
-//         method: "GET"
-//     }).then(function (response) {
-
-//         var current = response.data[0]
-
-//         //current
-//         var cityName = $(`<p> ${current.city_name} </p>`);
-//         var temp = $(`<p> Current Temperature: ${current.temp} &degF </p> `);
-//         var iconCode = current.weather.icon
-//         var icon = $(`<img>`)
-//         icon.attr("src", `assets/icons/${iconCode}.png`)
-//         var wind = $(`<p> Wind Speed: ${current.wind_spd} MPH</p>`);
-
-//         $("#current").prepend(cityName, icon, temp, wind);
-//     })
-
-// }
+$("#add-park").on("click", function (event) {
+    event.preventDefault();
+    clear();
+    $("#parkList").show();
+    $("#parkInfo").hide();
+    userInput = $("#user-input").val().trim();
+    console.log(userInput);
+    stateParks();
+    $("#user-input").val("");
+});

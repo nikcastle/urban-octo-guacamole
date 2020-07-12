@@ -106,7 +106,7 @@ function choosePark(chosenPark) {
                 var direcDiv = $("<div>")
                 var direcTitle = $("<h5>").text("Directions to the Park: ")
                 var direcInfo = $("<p>").text(response.data[i].directionsInfo);
-                
+                //entrance fee info
                 var entDiv = $("<div>")     
                 var entTitle = $("<h5>").text("Entrance Fees: ")
                 var entFeeTitle = $("<p>").text(response.data[i].entranceFees[0].title);

@@ -98,22 +98,33 @@ function choosePark(chosenPark) {
                 var parkCard = $("<div>")
                 var actDiv = $("<ul>")
                 var parkTitle = $("<h4>").text(response.data[i].fullName);
+
                 var actTitle = $("<h5>").text("Available Activities: ");
                 var acts = response.data[i].activities
                 var actLi = [];
 
+                var direcDiv = $("<div>")
+                var direcTitle = $("<h5>").text("Directions to the Park: ")
+                var direcInfo = $("<p>").text(response.data[i].directionsInfo);
+                //entrance fee info
+                var entDiv = $("<div>")     
+                var entTitle = $("<h5>").text("Entrance Fees: ")
+                var entFeeTitle = $("<p>").text(response.data[i].entranceFees[0].title);
+                var entFees = $("<p>").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
+                var entFeeDesc = $("<p>").text(response.data[i].entranceFees[0].description);
+            
                 for(var j = 0; j < acts.length; j++){
                     var item = $("<li>").text(acts[j].name);
                     actLi.push(item);
                 }
-    
+                
+                entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
+                direcDiv.append(direcTitle, direcInfo);
                 actDiv.append(actLi);
-                parkCard.append(parkTitle, actTitle, actDiv);
+                parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
                 $("#parkInfo").prepend(parkCard);
             } 
 
-
-            // console.log(actDiv);
         }
     })
 }

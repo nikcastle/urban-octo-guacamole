@@ -100,22 +100,33 @@ function choosePark(chosenPark) {
                 var parkCard = $("<div col s9>")
                 var actDiv = $("<ul>")
                 var parkTitle = $("<h4>").text(response.data[i].fullName);
+
                 var actTitle = $("<h5>").text("Available Activities: ");
                 var acts = response.data[i].activities
                 var actLi = [];
 
-                for(var j = 0; j < acts.length; j++){
+                var direcDiv = $("<div>")
+                var direcTitle = $("<h5>").text("Directions to the Park: ")
+                var direcInfo = $("<p>").text(response.data[i].directionsInfo);
+                //entrance fee info
+                var entDiv = $("<div>")
+                var entTitle = $("<h5>").text("Entrance Fees: ")
+                var entFeeTitle = $("<p>").text(response.data[i].entranceFees[0].title);
+                var entFees = $("<p>").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
+                var entFeeDesc = $("<p>").text(response.data[i].entranceFees[0].description);
+
+                for (var j = 0; j < acts.length; j++) {
                     var item = $("<li>").text(acts[j].name);
                     actLi.push(item);
                 }
-    
+
+                entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
+                direcDiv.append(direcTitle, direcInfo);
                 actDiv.append(actLi);
-                parkCard.append(parkTitle, actTitle, actDiv);
-                $("#parkInfo").append(parkCard);
-            } 
+                parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
+                $("#parkInfo").prepend(parkCard);
+            }
 
-
-            // console.log(actDiv);
         }
     })
 }
@@ -140,7 +151,7 @@ function forecast(parkLat, parkLon) {
         var cardDiv = $("<div>");
 
         for (var i = 0; i < forecast.length; i++) {
-            
+
             var weatherCode = forecast[i].weather.code
             console.log(weatherCode)
             var weatherDes = forecast[i].weather.description
@@ -169,12 +180,12 @@ function forecast(parkLat, parkLon) {
         }
 
     })
-    
+
 }
 
 // shows link if it is bad weather
 function ifRaining(weatherCode) {
-    
+
     if (weatherCode < 800) {
         rain = `<p> Looks like the weather is not great. Look up other activities in the area?</p>
         <p> <a href='www.tripadvisor.com' target='_blank'>Trip Advisor</a> </p>`;

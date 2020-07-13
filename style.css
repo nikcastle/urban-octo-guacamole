@@ -185,7 +185,11 @@ li {
 
 
 
-
+#progressGIF {
+    height: 300px;
+    display: flex;
+    align-content: center;
+}
 
 
 

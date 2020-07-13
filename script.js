@@ -23,21 +23,25 @@ function onLoad() {
     $("#parkList").hide();
     $("#parkInfo").hide();
     $("#goBack").hide();
+    $("#progressbar").hide();
     clearStorage();
 }
 
 
 //gather info from NPS
 function stateParks() {
-    var act = [];
+    
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
+
+    $("#progressbar").show();
 
     $.ajax({
         url: queryURL,
         method: "GET"
+
     }).then(function (response) {
         console.log(response);
-
+        $("#progressbar").hide();
         for (var i = 0; i < response.data.length; i++) {
             lat = response.data[i].latitude;
             lon = response.data[i].longitude;
@@ -45,7 +49,7 @@ function stateParks() {
             var name = response.data[i].fullName;
             natParkCode = response.data[i].parkCode;
 
-            var parkCard = $("<div class='col s12 m6 l4' id='parkSearchResults'>")
+            var parkCard = $("<div class='col s12 m6 l4 xl3' id='parkSearchResults'>")
             var cardDiv = $("<div class='card large'> ");
             var imgDiv = $("<div class= 'card-image'>");
             var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark' src=''/>`);
@@ -269,7 +273,7 @@ $(document).on("click", ".imgOfPark", function () {
     $("#parkList").hide();
     $("#parkInfo").show().empty();
     $("#goBack").show();
-
+    progressBar();
     var parkLat = $(this).data("lat");
     var parkLon = $(this).data("lon");
     var chosenPark = $(this).data("code");

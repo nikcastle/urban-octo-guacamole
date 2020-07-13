@@ -9,6 +9,7 @@ var chosenPark;
 var imgSource;
 var parkInfo = $("#parkInfo");
 var rain = "";
+var entranceFee;
 
 
 //clear function
@@ -48,6 +49,7 @@ function stateParks() {
             // console.log(lat)
             var name = response.data[i].fullName;
             natParkCode = response.data[i].parkCode;
+            entranceFee = response.data[i].entranceFees[0];
 
             var parkCard = $("<div class='col s12 m6 l4 xl3' id='parkSearchResults'>")
             var cardDiv = $("<div class='card large'> ");
@@ -91,6 +93,7 @@ function stateParks() {
 //Pull Park Activities
 function choosePark(chosenPark) {
 
+    // - Campground Info -
     $.ajax({
         url: "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
         method: "GET"
@@ -100,22 +103,27 @@ function choosePark(chosenPark) {
         // var campTitle = $(".selectedTitle").text("Campgrounds");
         var campUl = $("<ul>");
         for (var i = 0; i < response.data.length; i++) {
-            console.log(response.data[i].name);
+            if (!response.data[i].name) {
+                return
+            } else {
+                console.log(response.data[i].name);
+                var campLi = $("<li>").text(response.data[i].name);
+                campUl.append(campLi);
 
-            var campLi = $("<li>").text(response.data[i].name);
-
-            campUl.append(campLi);
+            }
+            $(".campgrounds").append(campUl)
 
         }
-        $(".campgrounds").append(campUl)
+
+        console.log(response);
+        // var campDiv = $("#selectedCampgrounds");
+        // var campTitle = $(".selectedTitle").text("Campgrounds");
         // $(".selectedTitle").text("Campgrounds")
-
-
-
         // $("#parkInfo").append("#campInfo");
 
     })
 
+    // - Park Directions & Activities List - 
     $.ajax({
         url: "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
         method: "GET"
@@ -137,30 +145,52 @@ function choosePark(chosenPark) {
                 // var direcDiv = $("<div>")
                 // var direcTitle = $("<h5>").text("Directions to the Park: ")
                 $("#directions").text(response.data[i].directionsInfo);
-                //entrance fee info
-                // var entDiv = $("<div>")
-                // var entTitle = $("<h5>").text("Entrance Fees: ")
-                $("#entFeeTitle").text(response.data[i].entranceFees[0].title);
-                $("#entFees").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
-                $("#entFeeDesc").text(response.data[i].entranceFees[0].description);
+
 
                 for (var j = 0; j < acts.length; j++) {
                     var item = $("<li>").text(acts[j].name);
                     // actLi.push(item);
                     actLi.append(item);
+
+                    // direcDiv.append(direcTitle, direcInfo);
+                    // actDiv.append(actLi);
+                    // parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
+                    // $("#parkInfo").append(parkCard);
                 }
 
-                // entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
-                // direcDiv.append(direcTitle, direcInfo);
-                // actDiv.append(actLi);
-                // parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
-                // $("#parkInfo").append(parkCard);
             }
-
         }
     })
-
 }
+
+// Entrance Fees
+// function getEntFees(chosenPark) {
+//     if(entranceFee.length === 0) {
+//         return false;
+//     }
+//     $.ajax({
+//         url: "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
+//         method: "GET"
+//     }).then(function (response) {
+
+//         for (var i = 0; i < response.data.length; i++) {
+//             if(!chosenPark) {
+//                 console.log("false");
+//             } else {
+//                 var entDiv = $("<div>")
+//                 var entTitle = $("<h5>").text("Entrance Fees: ")
+
+//                 var entFeeTitle = $("<p>").text(response.data[i].entranceFees[0].title);
+//                 var entFees = $("<p>").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
+//                 var entFeeDesc = $("<p>").text(response.data[i].entranceFees[0].description);
+//                 entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
+//                 $("#parkInfo").append(entDiv);
+
+//             }
+
+//         }
+//     })
+// }
 
 function getAlerts(chosenPark) {
 
@@ -287,6 +317,7 @@ $(document).on("click", ".imgOfPark", function () {
     forecast(parkLat, parkLon);
     choosePark(chosenPark);
     getAlerts(chosenPark);
+    getEntFees(chosenPark);
 });
 
 $("#add-park").on("click", function (event) {

@@ -66,8 +66,13 @@ h4 {
 }
 
 
+<<<<<<< HEAD
+#parkList{
+    background: transparent;
+=======
 #parkList {
     background: none;
+>>>>>>> master
     border: none;
 }
 #parkDescription {
@@ -87,7 +92,7 @@ h4 {
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: 100%;
-    background-color: transparent;
+    background-color: none;
     background-size: cover;
 }
 .placeholder {
@@ -157,9 +162,13 @@ h4 {
 }
 
 h5 {
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-transform: uppercase;
     text-align: center;
     font-size: 56px;
     color: rgb(208, 106, 94);
+    text-decoration: underline;
     
 }
 
@@ -172,8 +181,9 @@ h5 {
    text-align: center;
 }
 .selectedTitle {
+    text-transform: uppercase;
     font-size: 32px;
-    text-decoration: underline;
+    
     color: rgb(208, 106, 94) ;
     align-content: center;
 }
@@ -181,6 +191,10 @@ li {
     color:rgb(208, 106, 94);
     list-style-type: disc;
     list-style-position: inside;
+}
+
+#selectedContent {
+    color: rgb(208, 106, 94) ;
 }
 
     

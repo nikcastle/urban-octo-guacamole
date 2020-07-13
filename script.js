@@ -1,6 +1,6 @@
 // ------- GLOBAL VARIABLES ---------------
 var city = "";
-var apiKey = "31bc0639ecbf46fe8fb7a18255b9f63c";
+var apiKeyFore = "31bc0639ecbf46fe8fb7a18255b9f63c";
 var lon;
 var lat;
 var userInput;
@@ -26,6 +26,7 @@ function onLoad() {
     clearStorage();
 }
 
+
 //gather info from NPS
 function stateParks() {
     var act = [];
@@ -43,15 +44,16 @@ function stateParks() {
             // console.log(lat)
             var name = response.data[i].fullName;
             natParkCode = response.data[i].parkCode;
+
+            var parkCard = $("<div class='col s12 m6 l4' id='parkSearchResults'>")
+            var cardDiv = $("<div class='card large'> ");
+            var imgDiv = $("<div class= 'card-image'>");
+            var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark' src=''/>`);
+            var parkName = $(`<span class = 'card-title'>${name}<span>`);
+            
+            var desDiv = $("<div class='card-content'>");
             var description = $(`<p> ${response.data[i].description}</p>`);
 
-            var parkName = $("<h4>");
-            var imgDiv = $("<div class= 'card-image'>");
-            var cardStacked = $("<div class='card-stacked'>")
-            var cardDiv = $("<div class='card horizontal'> ");
-            var desDiv = $("<div class='card-content'>");
-
-            var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark' src=''/>`);
             var imgSrc = "";
 
             if (response.data[i].images.length === 0) {
@@ -67,15 +69,15 @@ function stateParks() {
                 "data-lon": lon
             });
 
-            parkName.text(name).addClass("nameOfPark");
-
+            
             // *Populates html for park list div
-            imgDiv.append(parkImage);
+            imgDiv.append(parkImage, parkName);
             desDiv.append(description);
-            cardStacked.append(desDiv);
-            cardDiv.append(imgDiv, cardStacked);
+            cardDiv.append(imgDiv, desDiv);
+            parkCard.append(cardDiv);
+            $("#parkCard").append(parkCard);
 
-            $("#parkList").append(parkName, cardDiv);
+          
 
         }
     })
@@ -97,7 +99,7 @@ function choosePark(chosenPark) {
         for (var i = 0; i < response.data.length; i++) {
             if (response.data[i].parkCode === chosenPark) {
                 console.log(response.data[i].fullName);
-                var parkCard = $("<div col s9>")
+                var parkCard = $("<div>")
                 var actDiv = $("<ul>")
                 var parkTitle = $("<h4>").text(response.data[i].fullName);
 
@@ -131,6 +133,38 @@ function choosePark(chosenPark) {
     })
 }
 
+function getAlerts(chosenPark) {
+
+    if (!chosenPark) {
+        return false
+    }
+
+    var alertUrl = `https://developer.nps.gov/api/v1/alerts?parkCode=${chosenPark}&stateCode=${userInput}&api_key=HtphDBtSdwAKMfdRhxg6VcvTpgK8vRGyDRko6hx2`
+
+    $.ajax({
+        url: alertUrl,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+        var alerts = response.data
+        var alertDiv = $("<div>");
+
+        for (var i = 0; i < alerts.length; i++) {
+            var alertDes = alerts[i].description;
+            var alertCat = alerts[i].category;
+            var alertTitle = alerts[i].title;
+
+            var alertHead = $(`<h5> ${alertTitle} </h5>`);
+            var alertSubhead = $(`<h6>${alertCat}</h6>`);
+            var alertInfo = $(`<p> ${alertDes} </p>`);
+
+            alertDiv.append(alertHead, alertSubhead, alertInfo);
+            $("#parkInfo").append(alertDiv);
+        }
+
+    })
+}
+
 // gets forecast
 function forecast(parkLat, parkLon) {
 
@@ -138,7 +172,7 @@ function forecast(parkLat, parkLon) {
         return false;
     }
 
-    var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKey}&units=i&days=3`
+    var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKeyFore}&units=i&days=3`
 
     $.ajax({
         url: forecastUrl,
@@ -147,8 +181,8 @@ function forecast(parkLat, parkLon) {
         var forecast = response.data
         console.log(response)
         var weatherDiv = $("<div class='wrapper container'>");
-        var forecastDiv = $("<div class='col s3 days center-align'>");
-        var cardDiv = $("<div>");
+        var forecastDiv = $("<div class='row days center-align'>");
+        var cardDiv = $("<div class='col s12 offset-s1'>");
 
         for (var i = 0; i < forecast.length; i++) {
 
@@ -157,8 +191,8 @@ function forecast(parkLat, parkLon) {
             var weatherDes = forecast[i].weather.description
             console.log(weatherDes)
             var iconCode = forecast[i].weather.icon
-            
-            var cardPanel = $("<div class = 'card-panel teal lighten-5 center-align days'>");
+
+            var cardPanel = $("<div class = 'card-panel teal lighten-5 col s3 center-align days'>");
 
             var date = $(`<h5> ${moment.unix(forecast[i].ts).format("M/D/YY")} </h5> `);
             var temp = $(`<p> Temperature: ${forecast[i].temp} &degF </p> `);
@@ -173,10 +207,10 @@ function forecast(parkLat, parkLon) {
             cardPanel.append(date, temp, icon, rain);
             cardDiv.append(cardPanel);
             forecastDiv.append(cardDiv)
-            // weatherDiv.append(forecastDiv)
-            $("#parkInfo").append(forecastDiv)
-            
-            
+            weatherDiv.append(forecastDiv)
+            $("#parkInfo").append(weatherDiv)
+
+
         }
 
     })
@@ -188,7 +222,7 @@ function ifRaining(weatherCode) {
 
     if (weatherCode < 800) {
         rain = `<p> Looks like the weather is not great. Look up other activities in the area?</p>
-        <p> <a href='www.tripadvisor.com' target='_blank'>Trip Advisor</a> </p>`;
+        <p> <a href='www.travelocity.com' target='_blank'>Travelocity</a> </p>`
     } else {
         rain = "<p>The weather is great for an adventure!</p>";
     }
@@ -214,17 +248,18 @@ onLoad();
 
 // * ----- CLICK EVENTS ------
 $(document).on("click", ".imgOfPark", function () {
-    
+    // event.preventDefault();
     $("#parkList").hide();
     $("#parkInfo").show().empty();
     $("#goBack").show();
-    
+
     var parkLat = $(this).data("lat");
     var parkLon = $(this).data("lon");
     var chosenPark = $(this).data("code");
-    
+    console.log(chosenPark);
     forecast(parkLat, parkLon);
     choosePark(chosenPark);
+    getAlerts(chosenPark);
 });
 
 $("#add-park").on("click", function (event) {
@@ -233,17 +268,15 @@ $("#add-park").on("click", function (event) {
     $("#parkList").show();
     $("#parkInfo").hide();
     userInput = $("#user-input").val().trim();
-    // console.log(userInput);
+    console.log(userInput);
     stateParks();
     $("#user-input").val("");
     saveUserInput();
-    
 });
 
-$("#goBack").on("click", function() {
+$("#goBack").on("click", function () {
     // onLoad();
     // getUserInput();
     // $("#parkInfo").hide();
     $("#parkList").show();
-}) 
-
+})

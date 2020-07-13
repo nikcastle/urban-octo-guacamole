@@ -8,6 +8,12 @@ body { background-color: rgb(255, 253, 231);
     flex-grow: 1;
 }
 
+.days {
+    
+    height: 350px;
+    margin-right: 20px;
+    
+}
 
 
 h1 {
@@ -196,9 +202,12 @@ li {
 
 #progressGIF {
     height: 300px;
-    display: flex;
-    align-content: center;
-    justify-content: center;
+    display: block;
+    margin: 0 auto;
+}
+
+#progressbar {
+    align-items: center;
 }
 
 .days {

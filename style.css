@@ -66,13 +66,8 @@ h4 {
 }
 
 
-<<<<<<< HEAD
-#parkList{
-    background: transparent;
-=======
 #parkList {
     background: none;
->>>>>>> master
     border: none;
 }
 #parkDescription {

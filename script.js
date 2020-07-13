@@ -29,7 +29,6 @@ function onLoad() {
 
 //gather info from NPS
 function stateParks() {
-    var act = [];
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
 
     $.ajax({
@@ -45,12 +44,12 @@ function stateParks() {
             var name = response.data[i].fullName;
             natParkCode = response.data[i].parkCode;
 
-            var parkCard = $("<div class='col s12 m6 l4' id='parkSearchResults'>")
+            var parkCard = $("<div class='col s12 m6 l4 xl3' id='parkSearchResults'>")
             var cardDiv = $("<div class='card large'> ");
             var imgDiv = $("<div class= 'card-image'>");
             var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark' src=''/>`);
             var parkName = $(`<span class = 'card-title'>${name}<span>`);
-            
+
             var desDiv = $("<div class='card-content'>");
             var description = $(`<p> ${response.data[i].description}</p>`);
 
@@ -69,7 +68,7 @@ function stateParks() {
                 "data-lon": lon
             });
 
-            
+
             // *Populates html for park list div
             imgDiv.append(parkImage, parkName);
             desDiv.append(description);
@@ -77,7 +76,7 @@ function stateParks() {
             parkCard.append(cardDiv);
             $("#parkList").append(parkCard);
 
-          
+
 
         }
     })
@@ -90,20 +89,25 @@ function choosePark(chosenPark) {
     $.ajax({
         url: "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
         method: "GET"
-    }).then(function(response){
+    }).then(function (response) {
+
         console.log(response);
-        var campDiv = $("<div>");
-        var campTitle = $("<h5>").text("Campgrounds: ")
-        var campUl = $("<ul>");
+        var campDiv = $("<div class='card-large'>");
+        var campTitle = $("<h5 class='card-title'>").text("Campgrounds: ")
+        var campUl = $("<ul class='card-content'>");
         for (var i = 0; i < response.data.length; i++) {
-            console.log(response.data[i].name);
-            var campLi = $("<li>").text(response.data[i].name);
-            campUl.append(campLi);
-            
+            if (!response.data[i].name) {
+                return
+            } else {
+                console.log(response.data[i].name);
+                var campLi = $("<li>").text(response.data[i].name);
+                campUl.append(campLi);
+
+            }
+
+            campDiv.append(campTitle, campUl);
+            $("#parkInfo").prepend(campDiv);
         }
-        
-        campDiv.append(campTitle, campUl);
-        $("#parkInfo").prepend(campDiv);
     })
 
     $.ajax({
@@ -126,23 +130,28 @@ function choosePark(chosenPark) {
                 var direcDiv = $("<div>")
                 var direcTitle = $("<h5>").text("Directions to the Park: ")
                 var direcInfo = $("<p>").text(response.data[i].directionsInfo);
+
+                
                 //entrance fee info
                 var entDiv = $("<div>")
                 var entTitle = $("<h5>").text("Entrance Fees: ")
                 var entFeeTitle = $("<p>").text(response.data[i].entranceFees[0].title);
                 var entFees = $("<p>").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
                 var entFeeDesc = $("<p>").text(response.data[i].entranceFees[0].description);
-
+                
+               
+                
                 for (var j = 0; j < acts.length; j++) {
                     var item = $("<li>").text(acts[j].name);
                     actLi.push(item);
                 }
 
-                entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
                 direcDiv.append(direcTitle, direcInfo);
                 actDiv.append(actLi);
+                entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
                 parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
                 $("#parkInfo").prepend(parkCard);
+                
             }
 
         }

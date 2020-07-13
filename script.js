@@ -30,7 +30,7 @@ function onLoad() {
 
 //gather info from NPS
 function stateParks() {
-    
+
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
 
     $("#progressbar").show();
@@ -54,7 +54,7 @@ function stateParks() {
             var imgDiv = $("<div class= 'card-image'>");
             var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark' src=''/>`);
             var parkName = $(`<span class = 'card-title'>${name}<span>`);
-            
+
             var desDiv = $("<div class='card-content'>");
             var description = $(`<p> ${response.data[i].description}</p>`);
 
@@ -73,7 +73,7 @@ function stateParks() {
                 "data-lon": lon
             });
 
-            
+
             // *Populates html for park list div
             imgDiv.append(parkImage, parkName);
             desDiv.append(description);
@@ -81,7 +81,7 @@ function stateParks() {
             parkCard.append(cardDiv);
             $("#parkList").append(parkCard);
 
-          
+
 
         }
     })
@@ -94,7 +94,7 @@ function choosePark(chosenPark) {
     $.ajax({
         url: "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
         method: "GET"
-    }).then(function(response){
+    }).then(function (response) {
         console.log(response);
         // var campDiv = $("#selectedCampgrounds");
         // var campTitle = $(".selectedTitle").text("Campgrounds");
@@ -105,15 +105,15 @@ function choosePark(chosenPark) {
             var campLi = $("<li>").text(response.data[i].name);
 
             campUl.append(campLi);
-            
+
         }
         $(".campgrounds").append(campUl)
         // $(".selectedTitle").text("Campgrounds")
-        
-        
-      
+
+
+
         // $("#parkInfo").append("#campInfo");
-        
+
     })
 
     $.ajax({
@@ -304,6 +304,6 @@ $("#add-park").on("click", function (event) {
 $("#goBack").on("click", function () {
     // onLoad();
     // getUserInput();
-    // $("#parkInfo").hide();
+    $("#parkInfo").hide();
     $("#parkList").show();
 })

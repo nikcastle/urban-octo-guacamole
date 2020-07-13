@@ -9,12 +9,16 @@ body { background-color: rgb(255, 253, 231);
 }
 
 .days {
-    margin-right: 1.5rem;
+    
     height: 300px;
+    
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .days img {
     height: 90px;
+
 }
 
 h1 {
@@ -66,13 +70,8 @@ h4 {
 }
 
 
-<<<<<<< HEAD
 #parkList{
     background: transparent;
-=======
-#parkList {
-    background: none;
->>>>>>> master
     border: none;
 }
 #parkDescription {
@@ -114,7 +113,14 @@ h4 {
     transform: translate(-50%,-50%);
     
 }
-
+#goBack{
+    position: relative;
+    cursor: pointer;
+    color: rgb(255, 253, 231);
+    width: 20%;
+    border-radius: 5px;
+    background: transparent;
+}
 
 
 #site-objectives {
@@ -188,13 +194,13 @@ h5 {
     align-content: center;
 }
 li {
-    color:rgb(208, 106, 94);
+    color: black;
     list-style-type: disc;
     list-style-position: inside;
 }
 
 #selectedContent {
-    color: rgb(208, 106, 94) ;
+    color: black ;
 }
 
     
@@ -207,6 +213,7 @@ li {
     height: 300px;
     display: flex;
     align-content: center;
+    justify-content: center;
 }
 
 

@@ -96,18 +96,24 @@ function choosePark(chosenPark) {
         method: "GET"
     }).then(function(response){
         console.log(response);
-        var campDiv = $("<div>");
-        var campTitle = $("<h5>").text("Campgrounds: ")
+        // var campDiv = $("#selectedCampgrounds");
+        // var campTitle = $(".selectedTitle").text("Campgrounds");
         var campUl = $("<ul>");
         for (var i = 0; i < response.data.length; i++) {
             console.log(response.data[i].name);
+
             var campLi = $("<li>").text(response.data[i].name);
+
             campUl.append(campLi);
             
         }
+        $(".campgrounds").append(campUl)
+        // $(".selectedTitle").text("Campgrounds")
         
-        campDiv.append(campTitle, campUl);
-        $("#parkInfo").prepend(campDiv);
+        
+      
+        // $("#parkInfo").append("#campInfo");
+        
     })
 
     $.ajax({
@@ -119,34 +125,36 @@ function choosePark(chosenPark) {
         for (var i = 0; i < response.data.length; i++) {
             if (response.data[i].parkCode === chosenPark) {
                 console.log(response.data[i].fullName);
-                var parkCard = $("<div>")
-                var actDiv = $("<ul>")
-                var parkTitle = $("<h4>").text(response.data[i].fullName);
+                // var parkCard = $("<div>")
+                // var actDiv = $("<ul>")
+                $("#fullName").text(response.data[i].fullName);
 
-                var actTitle = $("<h5>").text("Available Activities: ");
+                // var actTitle = $("<h5>").text("Available Activities: ");
                 var acts = response.data[i].activities
-                var actLi = [];
+                // var actLi = [];
+                var actLi = $("#columns")
 
-                var direcDiv = $("<div>")
-                var direcTitle = $("<h5>").text("Directions to the Park: ")
-                var direcInfo = $("<p>").text(response.data[i].directionsInfo);
+                // var direcDiv = $("<div>")
+                // var direcTitle = $("<h5>").text("Directions to the Park: ")
+                $("#directions").text(response.data[i].directionsInfo);
                 //entrance fee info
-                var entDiv = $("<div>")
-                var entTitle = $("<h5>").text("Entrance Fees: ")
-                var entFeeTitle = $("<p>").text(response.data[i].entranceFees[0].title);
-                var entFees = $("<p>").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
-                var entFeeDesc = $("<p>").text(response.data[i].entranceFees[0].description);
+                // var entDiv = $("<div>")
+                // var entTitle = $("<h5>").text("Entrance Fees: ")
+                $("#entFeeTitle").text(response.data[i].entranceFees[0].title);
+                $("#entFees").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
+                $("#entFeeDesc").text(response.data[i].entranceFees[0].description);
 
                 for (var j = 0; j < acts.length; j++) {
                     var item = $("<li>").text(acts[j].name);
-                    actLi.push(item);
+                    // actLi.push(item);
+                    actLi.append(item);
                 }
 
-                entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
-                direcDiv.append(direcTitle, direcInfo);
-                actDiv.append(actLi);
-                parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
-                $("#parkInfo").prepend(parkCard);
+                // entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
+                // direcDiv.append(direcTitle, direcInfo);
+                // actDiv.append(actLi);
+                // parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
+                // $("#parkInfo").append(parkCard);
             }
 
         }
@@ -175,12 +183,11 @@ function getAlerts(chosenPark) {
             var alertCat = alerts[i].category;
             var alertTitle = alerts[i].title;
 
-            var alertHead = $(`<h5> ${alertTitle} </h5>`);
-            var alertSubhead = $(`<h6>${alertCat}</h6>`);
+            var alertHead = $(`<h6> ${alertTitle} </h6>`);
+            var alertSubhead = $(`<p> ${alertCat}</p>`);
             var alertInfo = $(`<p> ${alertDes} </p>`);
 
-            alertDiv.append(alertHead, alertSubhead, alertInfo);
-            $("#parkInfo").append(alertDiv);
+            $("#selectedAlerts").append(alertHead, alertSubhead, alertInfo);
         }
 
     })
@@ -201,9 +208,9 @@ function forecast(parkLat, parkLon) {
     }).then(function (response) {
         var forecast = response.data
         console.log(response)
-        var weatherDiv = $("<div class='wrapper container'>");
+        var weatherDiv = $("<div class='wrapper flex-container'>");
         var forecastDiv = $("<div class='row days center-align'>");
-        var cardDiv = $("<div class='col s12 offset-s1'>");
+        var cardDiv = $("<div class='col s12 center-align'>");
 
         for (var i = 0; i < forecast.length; i++) {
 
@@ -215,7 +222,7 @@ function forecast(parkLat, parkLon) {
 
             var cardPanel = $("<div class = 'card-panel teal lighten-5 col s3 center-align days'>");
 
-            var date = $(`<h5> ${moment.unix(forecast[i].ts).format("M/D/YY")} </h5> `);
+            var date = $(`<h6> ${moment.unix(forecast[i].ts).format("M/D/YY")} </h6> `);
             var temp = $(`<p> Temperature: ${forecast[i].temp} &degF </p> `);
             var icon = $(`<img>`)
             icon.attr({
@@ -271,9 +278,8 @@ onLoad();
 $(document).on("click", ".imgOfPark", function () {
     // event.preventDefault();
     $("#parkList").hide();
-    $("#parkInfo").show().empty();
+    $("#parkInfo").show();
     $("#goBack").show();
-    progressBar();
     var parkLat = $(this).data("lat");
     var parkLon = $(this).data("lon");
     var chosenPark = $(this).data("code");

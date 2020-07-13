@@ -10,6 +10,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"
         integrity="sha512-m2PhLxj2N91eYrIGU2cmIu2d0SkaE4A14bCjVb9zykvp6WtsdriFCiXQ/8Hdj0kssUB/Nz0dMBcoLsJkSCto0Q=="
         crossorigin="anonymous"></script>
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="assets/jqueryUI/jquery-ui-1.12.1/jquery-ui.css">
+    <script src="assets/jqueryUI/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+
+    <script src="assets/jqueryUI/jquery-ui-1.12.1/jquery-ui.js"></script>
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Adventure App</title>
@@ -24,7 +30,9 @@
     <div class="row">
         <div class="column s12">
             <div class="mainImage">
-                <h1>We Park</h1>
+                <h1>
+                    <a href="index.html">We Park</a>
+                </h1>
 
                 <div class="wrapper-1">
 
@@ -92,6 +100,7 @@
 
         </div>
     </div>
+<<<<<<< HEAD
     <!-- <div class="flex-container">
         <div class="row">
             <div class="col s6 m6">
@@ -117,6 +126,10 @@
             </div>
         -->
 
+=======
+
+
+>>>>>>> master
 
 
 
@@ -124,6 +137,10 @@
 
 
 
+    <div id="progressbar" class="row center-align">
+        <h6>FINDING YOUR NEXT ADVENTURE...</h6>
+        <img id="progressGIF" src="https://media.giphy.com/media/2Pw5O3ErlXtJe/giphy.gif" />
+    </div>
 
     <!-- SEARCH RESULTS DYNAMICALLY WRITTEN IN -->
     <div class="flex-container">
@@ -133,17 +150,78 @@
     </div>
 
     <!-- INFORMATION FOR INDIVIDUAL PARKS -->
-    <div id="parkInfo" class="col s12 m7">
 
+    <div class="row" id="parkInfo">
 
+        <div id="selectedPark">
+            <h5 id="fullName"></h5>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <div class="card-content">
+                    <div id="selectedActivities">
+                        <span class="selectedTitle">Park Activities</span>
+                        <ol id="columns">
+                            
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card-content">
+                    <div id="selectedDirections">
+                        <span class="selectedTitle">Directions</span>
+                        <p id="directions"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 m6">
+                <div class="card-content">
+                    <div id="selectedFees">
+                        <span class="selectedTitle">Entrance Fees</span>
+                        <p id="entFeeTitle:"></p>
+                        <p id="entFees"></p>
+                        <p id="entFeeDesc"></p>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+
+        <div id="campInfo" class="row">
+            <div class="col s12">
+                <div class="card-content">
+                    <div id="selectedCampgrounds">
+                        <span class="selectedTitle">Campgrounds</span>
+                        <div class="campgrounds">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <div class="card-content">
+                    <div id="selectedAlerts">
+                        <span class="selectedTitle">Park Alerts</span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    
 
     </div>
 
-
-
-
     <!-- this is bootstrap code. do we need this??? -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
         </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -151,7 +229,7 @@
         </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
-        </script>
+        </script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="script.js"></script>

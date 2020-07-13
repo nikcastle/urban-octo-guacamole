@@ -29,6 +29,10 @@ h1 {
     
     }
 
+    h1 a {
+        color: rgb(255, 253, 231);
+    }
+
 h2 {
     color: rgb(208, 106, 94);
     text-align: center;
@@ -62,8 +66,13 @@ h4 {
 }
 
 
+<<<<<<< HEAD
 #parkList{
     background: transparent;
+=======
+#parkList {
+    background: none;
+>>>>>>> master
     border: none;
 }
 #parkDescription {
@@ -194,7 +203,11 @@ li {
 
 
 
-
+#progressGIF {
+    height: 300px;
+    display: flex;
+    align-content: center;
+}
 
 
 

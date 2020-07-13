@@ -9,7 +9,7 @@ var chosenPark;
 var imgSource;
 var parkInfo = $("#parkInfo");
 var rain = "";
-var entranceFee;
+// var entranceFee;
 
 
 //clear function
@@ -102,25 +102,24 @@ function choosePark(chosenPark) {
         // var campDiv = $("#selectedCampgrounds");
         // var campTitle = $(".selectedTitle").text("Campgrounds");
         var campUl = $("<ul>");
-        for (var i = 0; i < response.data.length; i++) {
-            if (!response.data[i].name) {
-                return
-            } else {
+        if (response.data.length < 1) {
+            $(".campgrounds").append("<p> This park does not offer any camping. </p>");
+            console.log("false")
+            
+        } else {
+                for (var i = 0; i < response.data.length; i++) {
                 console.log(response.data[i].name);
                 var campLi = $("<li>").text(response.data[i].name);
                 campUl.append(campLi);
 
+                $(".campgrounds").append(campUl)
             }
-            $(".campgrounds").append(campUl)
 
         }
-
-        console.log(response);
         // var campDiv = $("#selectedCampgrounds");
         // var campTitle = $(".selectedTitle").text("Campgrounds");
         // $(".selectedTitle").text("Campgrounds")
         // $("#parkInfo").append("#campInfo");
-
     })
 
     // - Park Directions & Activities List - 
@@ -317,7 +316,7 @@ $(document).on("click", ".imgOfPark", function () {
     forecast(parkLat, parkLon);
     choosePark(chosenPark);
     getAlerts(chosenPark);
-    getEntFees(chosenPark);
+    // getEntFees(chosenPark);
 });
 
 $("#add-park").on("click", function (event) {

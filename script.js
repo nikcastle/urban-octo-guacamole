@@ -57,7 +57,6 @@ function stateParks() {
             var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark' src=''/>`);
             var parkName = $(`<span class = 'card-title'>${name}<span>`);
 
-
             var desDiv = $("<div class='card-content'>");
             var description = $(`<p> ${response.data[i].description}</p>`);
 
@@ -99,10 +98,10 @@ function choosePark(chosenPark) {
         url: "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
         method: "GET"
     }).then(function (response) {
-
-        var campDiv = $("<div class='card-large'>");
-        var campTitle = $("<h5 class='card-title'>").text("Campgrounds: ")
-        var campUl = $("<ul class='card-content'>");
+        console.log(response);
+        // var campDiv = $("#selectedCampgrounds");
+        // var campTitle = $(".selectedTitle").text("Campgrounds");
+        var campUl = $("<ul>");
         for (var i = 0; i < response.data.length; i++) {
             if (!response.data[i].name) {
                 return

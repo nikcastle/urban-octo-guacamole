@@ -18,6 +18,14 @@ function clear() {
     $("#appInfo").hide()
 }
 
+function clearParkInfo() {
+    $("#columns").empty();
+    $("#directions").empty();
+    $("#campgrounds").empty();
+    $("#selectedAlerts").empty();
+    $("#fullName").empty();
+}
+
 // when page loads
 function onLoad() {
     $("#appInfo").show();
@@ -103,7 +111,7 @@ function choosePark(chosenPark) {
         // var campTitle = $(".selectedTitle").text("Campgrounds");
         var campUl = $("<ul>");
         if (response.data.length < 1) {
-            $(".campgrounds").append("<p> This park does not offer any camping. </p>");
+            $("#campgrounds").append("<p> This park does not offer any camping. </p>");
             console.log("false")
             
         } else {
@@ -112,7 +120,7 @@ function choosePark(chosenPark) {
                 var campLi = $("<li>").text(response.data[i].name);
                 campUl.append(campLi);
 
-                $(".campgrounds").append(campUl)
+                $("#campgrounds").append(campUl)
             }
 
         }
@@ -205,7 +213,8 @@ function getAlerts(chosenPark) {
     }).then(function (response) {
         console.log(response);
         var alerts = response.data
-        var alertDiv = $("<div>");
+        // var alertDiv = $("<div>");
+
 
         for (var i = 0; i < alerts.length; i++) {
             var alertDes = alerts[i].description;
@@ -336,4 +345,6 @@ $("#goBack").on("click", function () {
     // getUserInput();
     $("#parkInfo").hide();
     $("#parkList").show();
+    clearParkInfo();
 })
+

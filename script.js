@@ -246,9 +246,9 @@ function forecast(parkLat, parkLon) {
     }).then(function (response) {
         var forecast = response.data
         console.log(response)
-        var weatherDiv = $("<div class='wrapper flex-container'>");
+        var weatherDiv = $("<div class='wrapper container'>");
         var forecastDiv = $("<div class='row days center-align'>");
-        var cardDiv = $("<div class='col s12 center-align'>");
+        var cardDiv = $("<div class='col s12 offset-m1 center-align'>");
 
         for (var i = 0; i < forecast.length; i++) {
 
@@ -258,7 +258,7 @@ function forecast(parkLat, parkLon) {
             console.log(weatherDes)
             var iconCode = forecast[i].weather.icon
 
-            var cardPanel = $("<div class = 'card-panel teal lighten-5 col s3 center-align days'>");
+            var cardPanel = $("<div class = 'card-panel teal lighten-5 col s12 m3  center-align days'>");
 
             var date = $(`<h6> ${moment.unix(forecast[i].ts).format("M/D/YY")} </h6> `);
             var temp = $(`<p> Temperature: ${forecast[i].temp} &degF </p> `);

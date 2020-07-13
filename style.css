@@ -1,4 +1,5 @@
-body { background-color: rgb(255, 253, 231);}
+body { background-color: rgb(255, 253, 231);
+    }
 
 .cards { 
     
@@ -31,6 +32,7 @@ h1 {
 h2 {
     color: rgb(208, 106, 94);
     text-align: center;
+    text-decoration: underline;
 }
 h4 {
     text-align: center;
@@ -61,7 +63,7 @@ h4 {
 
 
 #parkSearchResults {
-    background: transparent;
+    background: none;
     border: none;
 }
 #parkDescription {
@@ -107,16 +109,17 @@ h4 {
 
 
 #site-objectives {
-    /* background-color: rgb(208, 106, 94); */
+    
     border-radius: 3px;
     opacity: .8;
     text-align: center;
-    flex: content;
+    
 
 }
 .utilityDescription {
     color: rgb(208, 106, 94);
 }
+    
 
 .wrapper-1 {
     position: absolute;
@@ -143,6 +146,43 @@ h4 {
     
     
 }
+/* start of styling for page after park has been selected */
+#columns {
+  column-count: 3;
+  column-gap: 20px;
+}
+
+h5 {
+    text-align: center;
+    font-size: 56px;
+    color: rgb(208, 106, 94);
+    
+}
+
+
+    
+    
+    
+
+#selectedDirections, #selectedFees, #selectedCampgrounds, #selectedAlerts, #selectedActivities {
+   text-align: center;
+}
+.selectedTitle {
+    font-size: 32px;
+    text-decoration: underline;
+    color: rgb(208, 106, 94) ;
+    align-content: center;
+}
+li {
+    color:rgb(208, 106, 94);
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+    
+
+
+
 
 
 #progressGIF {

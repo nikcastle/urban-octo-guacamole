@@ -18,6 +18,14 @@ function clear() {
     $("#appInfo").hide()
 }
 
+function clearParkInfo() {
+    $("#columns").empty();
+    $("#directions").empty();
+    $("#campgrounds").empty();
+    $("#selectedAlerts").empty();
+    $("#fullName").empty();
+}
+
 // when page loads
 function onLoad() {
     $("#appInfo").show();
@@ -102,16 +110,17 @@ function choosePark(chosenPark) {
         // var campDiv = $("#selectedCampgrounds");
         // var campTitle = $(".selectedTitle").text("Campgrounds");
         var campUl = $("<ul>");
+        if (response.data.length <= 0) {
+            $("#campgrounds").append("<p> This park has no campgrounds</p>");
+        } else {
         for (var i = 0; i < response.data.length; i++) {
-            if (!response.data[i].name) {
-                return
-            } else {
+            console.log(response.data[i].name);
                 console.log(response.data[i].name);
                 var campLi = $("<li>").text(response.data[i].name);
                 campUl.append(campLi);
 
+                $("#campgrounds").append(campUl)
             }
-            $(".campgrounds").append(campUl)
 
         }
 
@@ -317,7 +326,7 @@ $(document).on("click", ".imgOfPark", function () {
     forecast(parkLat, parkLon);
     choosePark(chosenPark);
     getAlerts(chosenPark);
-    getEntFees(chosenPark);
+    // getEntFees(chosenPark);
 });
 
 $("#add-park").on("click", function (event) {
@@ -337,4 +346,6 @@ $("#goBack").on("click", function () {
     // getUserInput();
     $("#parkInfo").hide();
     $("#parkList").show();
+    clearParkInfo();
 })
+

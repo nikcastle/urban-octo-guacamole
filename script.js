@@ -75,7 +75,7 @@ function stateParks() {
             desDiv.append(description);
             cardDiv.append(imgDiv, desDiv);
             parkCard.append(cardDiv);
-            $("#parkCard").append(parkCard);
+            $("#parkList").append(parkCard);
 
           
 

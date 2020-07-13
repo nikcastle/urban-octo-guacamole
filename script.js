@@ -80,14 +80,30 @@ function stateParks() {
 
 }
 
-// gather info for parkInfo div
+//Pull Park Activities
 function choosePark(chosenPark) {
 
-    var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
-
+    $.ajax({
+        url: "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
+        method: "GET"
+    }).then(function(response){
+        console.log(response);
+        var campDiv = $("<div>");
+        var campTitle = $("<h5>").text("Campgrounds: ")
+        var campUl = $("<ul>");
+        for (var i = 0; i < response.data.length; i++) {
+            console.log(response.data[i].name);
+            var campLi = $("<li>").text(response.data[i].name);
+            campUl.append(campLi);
+            
+        }
+        
+        campDiv.append(campTitle, campUl);
+        $("#parkInfo").prepend(campDiv);
+    })
 
     $.ajax({
-        url: queryURL,
+        url: "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
         method: "GET"
     }).then(function (response) {
 
@@ -127,6 +143,7 @@ function choosePark(chosenPark) {
 
         }
     })
+
 }
 
 // gets forecast

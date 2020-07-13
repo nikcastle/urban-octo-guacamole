@@ -32,11 +32,13 @@
                     <div class="searchbtn">
                         <i class="material-icons" id="add-park">search</i>
                     </div>
+                    <button id="goBack">Go Back</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- APP Info -->
     <div class="row">
         <div class="cards">
             <div id="appInfo" class="row">
@@ -89,73 +91,8 @@
 
         </div>
     </div>
-    <div class="flex-container">
-        <div class="row">
-            <div class="col s6 m6">
-                <div class="card large" id="parkSearchResults">
-                    <div class="card-image">
-                        <img id="parkImage"
-                            src="https://www.nps.gov/common/uploads/structured_data/3C8166E8-1DD8-B71B-0BDEB9A4EEEED807.jpg">
-                        <span class="card-title" id="parkName">Black Canyon</span>
-                    </div>
-                    <div class="card-content" id="parkDescription">
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.I am a very
-                            simple
-                            card.
-                            I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.I am a very
-                            simple
-                            card.
-                            I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col s6 m6">
-                <div class="card large" id="parkSearchResults">
-                    <div class="card-image responsive-img parkImage">
-                        <img
-                            src="https://www.nps.gov/common/uploads/structured_data/3C840D48-1DD8-B71B-0B7CD1781BEC0D0D.png">
-                        <span class="card-title" id="parkName">Card Title</span>
-                    </div>
-                    <div class="card-content" id="parkDescription">
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col s6 m6">
-                <div class="card large" id="parkSearchResults">
-                    <div class="card-image responsive-img parkImage">
-                        <img
-                            src="https://www.nps.gov/common/uploads/structured_data/3C79850F-1DD8-B71B-0BC4A88BA85DE6B0.jpg">
-                        <span class="card-title" id="parkName">Card Title</span>
-                    </div>
-                    <div class="card-content">
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col s6 m6">
-                <div class="card large" id="parkSearchResults">
-                    <div class="card-image responsive-img parkImage">
-                        <img
-                            src="https://www.nps.gov/common/uploads/structured_data/3C799BEA-1DD8-B71B-0B8422C716BCACED.jpg">
-                        <span class="card-title" id="parkName">Card Title</span>
-                    </div>
-                    <div class="card-content">
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+          
 
 
 
@@ -163,11 +100,13 @@
 
 
     <!-- SEARCH RESULTS DYNAMICALLY WRITTEN IN -->
-    <div class="wrapper">
-        <div id="parkList" class="col s12 m7">
-
+    <div class="flex-container">
+        <div class="row" id="parkList">
+            
+                </div>
+            </div>
         </div>
-    </div>
+    </div> 
 
     <!-- INFORMATION FOR INDIVIDUAL PARKS -->
     <div id="parkInfo" class="col s12 m7">
@@ -177,8 +116,8 @@
     </div>
 
 
-
-
+   
+        
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">

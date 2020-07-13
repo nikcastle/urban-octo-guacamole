@@ -31,10 +31,7 @@ function onLoad() {
 
 //gather info from NPS
 function stateParks() {
-<<<<<<< HEAD
-=======
-    
->>>>>>> master
+
     var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
 
     $("#progressbar").show();
@@ -116,15 +113,15 @@ function choosePark(chosenPark) {
 
             }
             $(".campgrounds").append(campUl)
-        
+
         }
-    
+
         console.log(response);
         // var campDiv = $("#selectedCampgrounds");
         // var campTitle = $(".selectedTitle").text("Campgrounds");
         // $(".selectedTitle").text("Campgrounds")
         // $("#parkInfo").append("#campInfo");
-        
+
     })
 
     // - Park Directions & Activities List - 
@@ -149,29 +146,22 @@ function choosePark(chosenPark) {
                 // var direcDiv = $("<div>")
                 // var direcTitle = $("<h5>").text("Directions to the Park: ")
                 $("#directions").text(response.data[i].directionsInfo);
-                //entrance fee info
-                // var entDiv = $("<div>")
-                // var entTitle = $("<h5>").text("Entrance Fees: ")
-                $("#entFeeTitle").text(response.data[i].entranceFees[0].title);
-                $("#entFees").text("$" + parseFloat(response.data[i].entranceFees[0].cost).toFixed(2));
-                $("#entFeeDesc").text(response.data[i].entranceFees[0].description);
+
 
                 for (var j = 0; j < acts.length; j++) {
                     var item = $("<li>").text(acts[j].name);
                     // actLi.push(item);
                     actLi.append(item);
+
+                    // direcDiv.append(direcTitle, direcInfo);
+                    // actDiv.append(actLi);
+                    // parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
+                    // $("#parkInfo").append(parkCard);
                 }
 
-                // entDiv.append(entTitle, entFeeTitle, entFees, entFeeDesc);
-                // direcDiv.append(direcTitle, direcInfo);
-                // actDiv.append(actLi);
-                // parkCard.append(parkTitle, actTitle, actDiv, direcDiv, entDiv);
-                // $("#parkInfo").append(parkCard);
             }
-
         }
     })
-
 }
 
 // Entrance Fees
@@ -183,7 +173,7 @@ function choosePark(chosenPark) {
 //         url: "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
 //         method: "GET"
 //     }).then(function (response) {
-        
+
 //         for (var i = 0; i < response.data.length; i++) {
 //             if(!chosenPark) {
 //                 console.log("false");
@@ -198,7 +188,7 @@ function choosePark(chosenPark) {
 //                 $("#parkInfo").append(entDiv);
 
 //             }
-           
+
 //         }
 //     })
 // }
@@ -346,6 +336,6 @@ $("#add-park").on("click", function (event) {
 $("#goBack").on("click", function () {
     // onLoad();
     // getUserInput();
-    // $("#parkInfo").hide();
+    $("#parkInfo").hide();
     $("#parkList").show();
 })

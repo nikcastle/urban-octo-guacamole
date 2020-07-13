@@ -213,7 +213,8 @@ function getAlerts(chosenPark) {
     }).then(function (response) {
         console.log(response);
         var alerts = response.data
-        var alertDiv = $("<div>");
+        // var alertDiv = $("<div>");
+
 
         for (var i = 0; i < alerts.length; i++) {
             var alertDes = alerts[i].description;

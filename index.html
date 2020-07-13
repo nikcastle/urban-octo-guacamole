@@ -22,7 +22,7 @@
 
     <!-- JUMBOTRON -->
     <div class="row">
-        <div class="column .s12">
+        <div class="column s12">
             <div class="mainImage">
                 <h1>We Park</h1>
 
@@ -32,16 +32,19 @@
                     <div class="searchbtn">
                         <i class="material-icons" id="add-park">search</i>
                     </div>
+                    <button id="goBack">Go Back</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- APP Info -->
+
     <div class="row">
         <div class="cards">
             <div id="appInfo" class="row">
                 <div class="cards">
-                    <div class="col .s4">
+                    <div class="col s4">
                         <div id="site-objectives">
                             <h2>National Park Locations</h2>
                             <span class="utilityDescription">Discover the beauty of Americas finest national parks
@@ -54,7 +57,7 @@
                         </div>
 
                     </div>
-                    <div class="col .s4">
+                    <div class="col s4">
                         <div id="site-objectives">
                             <h2>Find Activities</h2>
                             <span class="utilityDescription">Find the things you want to do! Camping, rafting,
@@ -67,7 +70,7 @@
                         </div>
 
                     </div>
-                    <div class="col .s4">
+                    <div class="col s4">
                         <div id="site-objectives">
                             <h2>Important Information</h2>
                             <span class="utilityDescription">Worried about weather or not the park is open for
@@ -177,9 +180,10 @@
 
 
 
+
     <!-- SEARCH RESULTS DYNAMICALLY WRITTEN IN -->
-    <div class="wrapper">
-        <div id="parkList" class="col s12 m7">
+    <div class="flex-container">
+        <div class="row" id="parkList">
 
         </div>
     </div>
@@ -194,8 +198,8 @@
 
 
 
-    <!-- double check to make sure we dont need these -->
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    <!-- this is bootstrap code. do we need this??? -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
         </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

@@ -1,6 +1,6 @@
 // ------- GLOBAL VARIABLES ---------------
 var city = "";
-var apiKey = "31bc0639ecbf46fe8fb7a18255b9f63c";
+var apiKeyFore = "31bc0639ecbf46fe8fb7a18255b9f63c";
 var lon;
 var lat;
 var userInput;
@@ -22,7 +22,10 @@ function onLoad() {
     $("#appInfo").show();
     $("#parkList").hide();
     $("#parkInfo").hide();
+    $("#goBack").hide();
+    clearStorage();
 }
+
 
 //gather info from NPS
 function stateParks() {
@@ -41,19 +44,20 @@ function stateParks() {
             // console.log(lat)
             var name = response.data[i].fullName;
             natParkCode = response.data[i].parkCode;
+
+            var parkCard = $("<div class='col s12 m6 l4' id='parkSearchResults'>")
+            var cardDiv = $("<div class='card large'> ");
+            var imgDiv = $("<div class= 'card-image'>");
+            var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark' src=''/>`);
+            var parkName = $(`<span class = 'card-title'>${name}<span>`);
+            
+            var desDiv = $("<div class='card-content'>");
             var description = $(`<p> ${response.data[i].description}</p>`);
 
-            var parkName = $("<h4>");
-            var imgDiv = $("<div class= 'card-image'>");
-            var cardStacked = $("<div class='card-stacked'>")
-            var cardDiv = $("<div class='card horizontal'> ");
-            var desDiv = $("<div class='card-content'>");
-
-            var parkImage = $(`<img data-code="${natParkCode}" class='imgOfPark' src=''/>`);
             var imgSrc = "";
 
             if (response.data[i].images.length === 0) {
-                imgSrc = ""
+                imgSrc = "assets/images/npsdefault.jpg"
             } else {
                 imgSrc = response.data[i].images[0].url;
 
@@ -65,29 +69,45 @@ function stateParks() {
                 "data-lon": lon
             });
 
-            parkName.text(name).addClass("nameOfPark");
-
+            
             // *Populates html for park list div
-            imgDiv.append(parkImage);
+            imgDiv.append(parkImage, parkName);
             desDiv.append(description);
-            cardStacked.append(desDiv);
-            cardDiv.append(imgDiv, cardStacked);
+            cardDiv.append(imgDiv, desDiv);
+            parkCard.append(cardDiv);
+            $("#parkList").append(parkCard);
 
-            $("#parkList").append(parkName, cardDiv);
+          
 
         }
     })
 
 }
 
-// gather info for parkInfo div
+//Pull Park Activities
 function choosePark(chosenPark) {
 
-    var queryURL = "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu";
-
+    $.ajax({
+        url: "https://developer.nps.gov/api/v1/campgrounds?parkCode=" + chosenPark + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
+        method: "GET"
+    }).then(function(response){
+        console.log(response);
+        var campDiv = $("<div>");
+        var campTitle = $("<h5>").text("Campgrounds: ")
+        var campUl = $("<ul>");
+        for (var i = 0; i < response.data.length; i++) {
+            console.log(response.data[i].name);
+            var campLi = $("<li>").text(response.data[i].name);
+            campUl.append(campLi);
+            
+        }
+        
+        campDiv.append(campTitle, campUl);
+        $("#parkInfo").prepend(campDiv);
+    })
 
     $.ajax({
-        url: queryURL,
+        url: "https://developer.nps.gov/api/v1/parks?stateCode=" + userInput + "&api_key=8Mvx3Lnd1BgLAuyl8VNeOCL5jxVIYfmhBrnxwNWu",
         method: "GET"
     }).then(function (response) {
 
@@ -127,6 +147,39 @@ function choosePark(chosenPark) {
 
         }
     })
+
+}
+
+function getAlerts(chosenPark) {
+
+    if (!chosenPark) {
+        return false
+    }
+
+    var alertUrl = `https://developer.nps.gov/api/v1/alerts?parkCode=${chosenPark}&stateCode=${userInput}&api_key=HtphDBtSdwAKMfdRhxg6VcvTpgK8vRGyDRko6hx2`
+
+    $.ajax({
+        url: alertUrl,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+        var alerts = response.data
+        var alertDiv = $("<div>");
+
+        for (var i = 0; i < alerts.length; i++) {
+            var alertDes = alerts[i].description;
+            var alertCat = alerts[i].category;
+            var alertTitle = alerts[i].title;
+
+            var alertHead = $(`<h5> ${alertTitle} </h5>`);
+            var alertSubhead = $(`<h6>${alertCat}</h6>`);
+            var alertInfo = $(`<p> ${alertDes} </p>`);
+
+            alertDiv.append(alertHead, alertSubhead, alertInfo);
+            $("#parkInfo").append(alertDiv);
+        }
+
+    })
 }
 
 // gets forecast
@@ -136,7 +189,7 @@ function forecast(parkLat, parkLon) {
         return false;
     }
 
-    var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKey}&units=i&days=3`
+    var forecastUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lon=${parkLon}&lat=${parkLat}&key=${apiKeyFore}&units=i&days=3`
 
     $.ajax({
         url: forecastUrl,
@@ -186,11 +239,25 @@ function ifRaining(weatherCode) {
 
     if (weatherCode < 800) {
         rain = `<p> Looks like the weather is not great. Look up other activities in the area?</p>
-        <p> <a href='travelocity.com' target='_blank'>Travelocity</a> </p>`;
+        <p> <a href='www.travelocity.com' target='_blank'>Travelocity</a> </p>`
     } else {
         rain = "<p>The weather is great for an adventure!</p>";
     }
     return rain;
+}
+
+// local storage functions
+function saveUserInput() {
+    localStorage.setItem("input", JSON.stringify(userInput));
+}
+
+function getUserInput() {
+    userInput = JSON.parse(localStorage.getItem("input")) || "";
+    stateParks();
+}
+
+function clearStorage() {
+    localStorage.clear();
 }
 
 // * ---- FUNCTION CALLS ----
@@ -201,13 +268,15 @@ $(document).on("click", ".imgOfPark", function () {
     // event.preventDefault();
     $("#parkList").hide();
     $("#parkInfo").show().empty();
+    $("#goBack").show();
 
     var parkLat = $(this).data("lat");
     var parkLon = $(this).data("lon");
     var chosenPark = $(this).data("code");
-    // imgSource = $(this).attr("src");
+    console.log(chosenPark);
     forecast(parkLat, parkLon);
     choosePark(chosenPark);
+    getAlerts(chosenPark);
 });
 
 $("#add-park").on("click", function (event) {
@@ -219,4 +288,12 @@ $("#add-park").on("click", function (event) {
     console.log(userInput);
     stateParks();
     $("#user-input").val("");
+    saveUserInput();
 });
+
+$("#goBack").on("click", function () {
+    // onLoad();
+    // getUserInput();
+    // $("#parkInfo").hide();
+    $("#parkList").show();
+})

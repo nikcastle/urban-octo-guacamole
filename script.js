@@ -57,7 +57,7 @@ function stateParks() {
             var imgSrc = "";
 
             if (response.data[i].images.length === 0) {
-                imgSrc = ""
+                imgSrc = "assets/images/npsdefault.jpg"
             } else {
                 imgSrc = response.data[i].images[0].url;
 

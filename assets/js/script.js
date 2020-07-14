@@ -24,7 +24,7 @@ function clearParkInfo() {
     $("#campgrounds").empty();
     $("#selectedAlerts").empty();
     $("#fullName").empty();
-    $("#weather").empty();
+    $("#weather").remove();
     
 }
 
@@ -296,6 +296,7 @@ onLoad();
 // * ----- CLICK EVENTS ------
 $(document).on("click", ".imgOfPark", function () {
     // event.preventDefault();
+    // clearParkInfo();
     $("#parkList").hide();
     $("#parkInfo").show();
     $("#goBack").show();
@@ -319,6 +320,7 @@ $("#add-park").on("click", function (event) {
     stateParks();
     $("#user-input").val("");
     saveUserInput();
+    clearParkInfo();
 });
 
 $("#goBack").on("click", function () {

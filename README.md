@@ -12,9 +12,9 @@ GIVEN I am planning  activities for an outdoor adventure\
 WHEN I enter the name of a US state\
 THEN I get a list of National Parks within that state\    
 WHEN I select the name of a National Park\
-THEN I get a dropdown selection of weather, campgrounds, alerts, activities/things to do\
-WHEN I select an option from the list\
-THEN I am presented with information relevant to my choice, ex Weather: 5 day forecast; Campgrounds: List of campgrounds open; Alerts: Any alerts I’d need to know, like park closures or fire bans; Activities/Things to Do: Events happening in the park, lookout spots
+THEN I get to view the weather, campgrounds, alerts, activities/things to do. Ex Weather: 3 day forecast; Campgrounds: List of campgrounds open; Alerts: Any alerts I’d need to know, like park closures or fire bans; Activities/Things to Do: Events happening in the park, lookout spots\
+WHEN I hit the go back button\
+THEN I am presented with search results from the state I previously searched\
 
 
 ## Future Development
@@ -28,3 +28,11 @@ Hunter Booth\
 John Dusang\
 Kimberly Owens\
 Nikki Castle\
+
+## Demo 
+![Demo of App](assets/images/wepark.gif)
+
+## Links
+
+[Git hub live site] https://nikcastle.github.io/urban-octo-guacamole/index.html
+[Github Repo] https://github.com/nikcastle/urban-octo-guacamole

@@ -24,6 +24,8 @@ function clearParkInfo() {
     $("#campgrounds").empty();
     $("#selectedAlerts").empty();
     $("#fullName").empty();
+    $("#weather").empty();
+    
 }
 
 function autoComplete() {
@@ -225,7 +227,7 @@ function forecast(parkLat, parkLon) {
     }).then(function (response) {
         var forecast = response.data
         console.log(response)
-        var weatherDiv = $("<div class='wrapper container'>");
+        var weatherDiv = $("<div class='wrapper container' id='weather'>");
         var forecastDiv = $("<div class='row days center-align'>");
         var cardDiv = $("<div class='col s12 offset-m1 center-align'>");
 
@@ -325,5 +327,6 @@ $("#goBack").on("click", function () {
     $("#parkInfo").hide();
     $("#parkList").show();
     clearParkInfo();
+    
 })
 

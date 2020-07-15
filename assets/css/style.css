@@ -9,16 +9,10 @@ body { background-color: rgb(255, 253, 231);
 }
 
 .days {
-<<<<<<< HEAD:style.css
-    height: 300px;
-    flex-direction: column;
-    justify-content: space-evenly;
-=======
     
     height: 350px;
     margin-right: 20px;
     
->>>>>>> master:assets/css/style.css
 }
 
 

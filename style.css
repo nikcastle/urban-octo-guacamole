@@ -9,9 +9,7 @@ body { background-color: rgb(255, 253, 231);
 }
 
 .days {
-    
     height: 300px;
-    
     flex-direction: column;
     justify-content: space-evenly;
 }
